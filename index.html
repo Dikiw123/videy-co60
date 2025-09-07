@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tonton Video</title>
+<style>
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#111;color:#fff;}
+  .centered{
+    display:flex;align-items:center;justify-content:center;height:100vh;
+  }
+  .card{
+    background:#1c1c1c;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 6px 20px rgba(0,0,0,0.6);
+  }
+  h1{margin:0 0 15px;font-size:22px}
+  button{
+    background:#2b9cff;
+    color:#fff;
+    border:none;
+    padding:14px 24px;
+    font-size:16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:background .2s;
+  }
+  button:hover{background:#1a7fd9}
+
+  /* player wrap */
+  #playerWrap{display:none;min-height:100vh;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;}
+  .player-box{
+    width:100%;max-width:420px;background:#000;border-radius:8px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,0.6);position:relative;
+  }
+  video{width:100%;display:block;background:#000}
+  .big-play{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:88px;height:88px;border-radius:50%;background:rgba(40,40,40,0.85);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .big-play.hidden{display:none}
+  .big-play svg{width:36px;height:36px;fill:#fff}
+</style>
+</head>
+<body>
+
+<!-- Landing page -->
+<div class="centered" id="landing">
+  <div class="card">
+    <h1>Klik tombol di bawah untuk menonton</h1>
+    <button id="watchBtn">Tonton Sekarang</button>
+  </div>
+</div>
+
+<!-- Player -->
+<div id="playerWrap" class="centered">
+  <div class="player-box">
+    <video id="video" preload="metadata" playsinline webkit-playsinline>
+      <source src="https://cdn.videy.co/4JBT2o8b1.mp4" type="video/mp4">
+    </video>
+    <div class="big-play" id="bigPlay">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+// ====== KONFIGURASI ======
+const adLink = "https://fortunatelychastise.com/pfykf9cuw4?key=1b323d318c04708ff0afeead0ffbfc40"; // ganti link iklan
+const watchBtn = document.getElementById("watchBtn");
+const landing = document.getElementById("landing");
+const playerWrap = document.getElementById("playerWrap");
+
+watchBtn.addEventListener("click", function(e){
+  e.preventDefault();
+  // buka iklan popunder
+  window.open(adLink, "_blank");
+  // sembunyikan landing, tampilkan player
+  landing.style.display = "none";
+  playerWrap.style.display = "flex";
+});
+
+// ==== Video controls sederhana ====
+const video = document.getElementById("video");
+const bigPlay = document.getElementById("bigPlay");
+
+function togglePlay(){
+  if(video.paused){ video.play(); } else { video.pause(); }
+}
+
+video.addEventListener("play", ()=> bigPlay.classList.add("hidden"));
+video.addEventListener("pause", ()=> bigPlay.classList.remove("hidden"));
+
+bigPlay.addEventListener("click", togglePlay);
+video.addEventListener("click", togglePlay);
+</script>
+
+</body>
+</html>
